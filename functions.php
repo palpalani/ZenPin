@@ -3,6 +3,7 @@ zp_register_filter('themeSwitcher_head', 'switcher_head');
 zp_register_filter('themeSwitcher_Controllink', 'switcher_controllink');
 zp_register_filter('theme_head', 'css_head', 0);
 
+/*
 $curdir = getcwd();
 chdir(SERVERPATH . "/themes/".basename(dirname(__FILE__))."/styles");
 $filelist = safe_glob('*.css');
@@ -12,7 +13,7 @@ foreach($filelist as $file) {
 	$themecolors[] = filesystemToInternal($file);
 }
 chdir($curdir);
-
+*/
 function css_head($ignore) {
 	global $themecolors, $zenCSS, $themeColor, $_zp_themeroot;
 	if (!$themeColor) {

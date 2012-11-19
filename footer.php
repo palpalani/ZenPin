@@ -1,5 +1,5 @@
 		<div id="credit">
-			<?php printRSSLink('Album', '', gettext('Album RSS'), ' | '); ?>
+			<?php //printRSSLink('Album', '', gettext('Album RSS'), ' | '); ?>
 			<?php printCustomPageURL(gettext("Archive View"), "archive"); ?> |
 			<?php
 			if (function_exists('printFavoritesLink')) {

@@ -1,31 +1,29 @@
-<?php include_once('header.php'); ?>
-<div id="main">
-	<div id="gallerytitle">
-		<?php if (getOption('Allow_search')) {
-			printSearchForm('');
-		} ?>
-		<h2><?php printHomeLink('', ' | ');
-		printGalleryTitle(); ?></h2>
-	</div>
-	<div id="padbox">
-	<?php printGalleryDesc(); ?>
-		<div id="albums">
-			<?php while (next_album()): ?>
-				<div class="album">
-					<div class="thumb">
-						<a href="<?php echo html_encode(getAlbumLinkURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumThumbImage(getAnnotatedAlbumTitle()); ?></a>
+<?php 
+$page = "index";
+include_once('header.php');
+?>
+
+<div class="container-fluid">
+	<div id="masonry">
+		<?php while (next_album()): ?>
+			<div class="thumb masonry-brick">
+				<div class="album thumb-holder">
+					<div class="masonry-actionbar">
+						<a class="btn btn-mini" href="<?php echo html_encode(getAlbumLinkURL()); ?>">View <i class="icon-arrow-right"></i></a>
+						<?php //@call_user_func('printSlideShowLink'); ?>
 					</div>
-					<div class="albumdesc">
-						<h3><a href="<?php echo html_encode(getAlbumLinkURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumTitle(); ?></a></h3>
-						<small><?php printAlbumDate(""); ?></small>
-						<p><?php printAlbumDesc(); ?></p>
-					</div>
-					<p style="clear: both; "></p>
+					<a href="<?php echo html_encode(getAlbumLinkURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>">
+						<?php //printAlbumThumbImage(getAnnotatedAlbumTitle()); 
+						echo '<img src="'. getCustomAlbumThumbMaxSpace(220, 400) .'">';
+						?>
+						<div class="thumbtitle"><?php printAlbumTitle(); ?></div>
+					</a>
+					<div class="masonry-meta"><p><?php printAlbumDesc(); ?></p></div>
 				</div>
-			<?php endwhile; ?>
-		</div>
-		<br clear="all" />
-		<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »"); ?>
+			</div>
+		<?php endwhile; ?>
 	</div>
+	<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »", false, false, 'navigation', 'next', true, 0); ?>
+	<div id="scrolltotop"><a href="#"><i class="icon-chevron-up"></i><br />Top</a></div>
 </div>
 <?php include_once('footer.php'); ?>
