@@ -34,7 +34,7 @@ include_once('header.php');
 				</div>
 				<a href="<?php echo html_encode(getAlbumLinkURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>">
 				<?php //printAlbumThumbImage(getAnnotatedAlbumTitle()); 
-					echo '<img src="'. getCustomAlbumThumbMaxSpace(220, 250) .'">';
+					echo '<img src="'. getCustomAlbumThumbMaxSpace(200, 999) .'">';
 				?>				
 				<div class="thumbtitle"><?php printAlbumTitle(); ?></div>							
 				</a>
@@ -51,7 +51,7 @@ include_once('header.php');
 					</div>
 					<a href="<?php echo html_encode(getImageLinkURL()); ?>" title="<?php printBareImageTitle(); ?>">
 						<?php //printImageThumb(getAnnotatedImageTitle());
-							echo '<img src="'. getCustomSizedImageThumbMaxSpace(220, 250) .'">';
+							echo '<img src="'. getCustomSizedImageThumbMaxSpace(200, 999) .'">';
 						?>				
 						<div class="thumbtitle"><?php printBareImageTitle(); ?></div>
 					</a>
@@ -63,9 +63,9 @@ include_once('header.php');
 	<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »", false, false, 'navigation', 'next', true, 0); ?>
 	<?php if (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_album); ?>
 	<?php printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', ''); ?>
-	<?php //@call_user_func('printGoogleMap'); ?>				
+	<?php @call_user_func('printGoogleMap'); ?>				
 	<?php @call_user_func('printRating'); ?>
-	<?php //@call_user_func('printCommentForm'); ?>
+	<?php @call_user_func('printCommentForm'); ?>
 	<div id="scrolltotop"><a href="#"><i class="icon-chevron-up"></i><br />Top</a></div>
 </div>
 <?php include_once('footer.php'); ?>

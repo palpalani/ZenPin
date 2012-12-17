@@ -2,7 +2,6 @@
 $page = "index";
 include_once('header.php');
 ?>
-
 <div class="container-fluid">
 	<div id="masonry">
 		<?php while (next_album()): ?>
@@ -14,7 +13,7 @@ include_once('header.php');
 					</div>
 					<a href="<?php echo html_encode(getAlbumLinkURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>">
 						<?php //printAlbumThumbImage(getAnnotatedAlbumTitle()); 
-						echo '<img src="'. getCustomAlbumThumbMaxSpace(220, 400) .'">';
+						echo '<img src="'. getCustomAlbumThumbMaxSpace(200, 999) .'">';
 						?>
 						<div class="thumbtitle"><?php printAlbumTitle(); ?></div>
 					</a>

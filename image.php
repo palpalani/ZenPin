@@ -2,7 +2,6 @@
 $page = "image";
 include_once('header.php');
 ?>
-
 <div class="span9">
 <ul class="breadcrumb">
 <li><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> <span class="divider">/</span></li>
@@ -15,11 +14,11 @@ include_once('header.php');
   <ul>
   <?php if (hasPrevImage()) { ?>
     <li class="prev"><a href="<?php echo html_encode(getPrevImageURL());?>" title="<?php echo gettext("Previous Image"); ?>">&larr; Previous</a></li>
-  <?php } 
+    <?php } 
 	if (hasNextImage()) { ?>
     <li class="next"><a href="<?php echo html_encode(getNextImageURL());?>" title="<?php echo gettext("Next Image"); ?>">Next &rarr;</a></li>
-<?php } ?>
-<li><a href="#"><?php echo " Photo: ". imageNumber() . " of ". getNumImages() ." - Total views: <strong>". getHitcounter() ."</strong>";?></a></li>
+    <?php } ?>
+    <li><a href="#"><?php echo " Photo: ". imageNumber() . " of ". getNumImages() ." - Total views: <strong>". getHitcounter() ."</strong>";?></a></li>
   </ul>
 </div>
 

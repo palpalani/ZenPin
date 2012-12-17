@@ -15,13 +15,13 @@ class ThemeOptions {
 
 	function ThemeOptions() {
 		setThemeOptionDefault('Allow_search', true);
-		setThemeOptionDefault('albums_per_page', 24);
+		setThemeOptionDefault('albums_per_page', 40);
 		//setThemeOptionDefault('albums_per_row', 6);
-		setThemeOptionDefault('images_per_page', 24);
+		setThemeOptionDefault('images_per_page', 40);
 		//setThemeOptionDefault('images_per_row', 5);
 		setThemeOptionDefault('image_size', 650);
 		setThemeOptionDefault('image_use_side', 'longest');
-		setThemeOptionDefault('thumb_size', 220);
+		setThemeOptionDefault('thumb_size', 200);
 		//setThemeOptionDefault('thumb_crop_width', 100);
 		//setThemeOptionDefault('thumb_crop_height', 100);
 		setThemeOptionDefault('thumb_crop', 0);

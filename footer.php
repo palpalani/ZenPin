@@ -16,6 +16,41 @@
 		?>
 	
 	<script>
+		jQuery(document).ready(function($){
+			var $masonry = $('#masonry');
+
+			$('#navigation').css({'visibility':'hidden', 'height':'1px'});
+
+			$masonry.masonry({
+			  itemSelector : '.thumb',
+			  isFitWidth: true
+			});
+
+			$masonry.infinitescroll({
+				navSelector : '#navigation',
+				nextSelector : '#navigation #navigation-next a',
+				itemSelector : '.thumb',
+				bufferPx : 500,
+				loading: {
+					msgText: '',
+					finishedMsg: 'All images loaded',
+					img: '<?php echo $website; ?>themes/zenpin/images/ajax-loader.gif',
+					finished: function() {},
+				},
+			}, function(newElements) {
+				$('#infscr-loading').fadeOut('normal');
+				$masonry.masonry('appended', $newElems, true);
+			});
+
+			$masonry.on('mouseenter', '.thumb-holder', function() {
+				$(this).children('.masonry-actionbar').show();
+			});
+
+			$masonry.on('mouseleave', '.thumb-holder', function() {
+				$(this).children('.masonry-actionbar').hide();
+			});
+		});
+		/*
 		(function($){
 			var $masonry = $('#masonry');
 			
@@ -36,10 +71,11 @@
 				navSelector : 'div.navigation',
 				nextSelector : 'div.navigation a',
 				itemSelector : '.thumb',
+				bufferPx : 500,
 				loading: {
 					msgText: '',
-					finishedMsg: 'All items loaded',
-					img: 'http://ericulous.com/ipin/wp-content/themes/ipin/img/ajax-loader.gif',
+					finishedMsg: 'All images loaded',
+					img: '<?php echo $website; ?>themes/zenpin/images/ajax-loader.gif',
 					finished: function() {},
 				},
 			}, function(newElements) {
@@ -60,7 +96,8 @@
 				$(this).children('.masonry-actionbar').hide();
 			});
 		});
-	</script>
+		*/
+		</script>
 		<script>
 		jQuery(document).ready(function($) {
 			var $scrolltotop = $("#scrolltotop");
@@ -84,6 +121,6 @@
 			});
 		});
 	</script>
-	<script type='text/javascript' src='/sdz/zenphoto/themes/zenpin/bootstrap.min.js'></script>	
+	<script type='text/javascript' src='<?php echo $website; ?>themes/zenpin/bootstrap.min.js'></script>	
 	</body>
 </html>

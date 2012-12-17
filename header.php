@@ -3,8 +3,7 @@
 
 if (!defined('WEBPATH')) die();
 $website = html_encode(getGalleryIndexURL(false));
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
 	<meta charset="UTF-8" />
@@ -67,4 +66,3 @@ $website = html_encode(getGalleryIndexURL(false));
         </div>
       </div>
     </div>
-		
