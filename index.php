@@ -19,6 +19,7 @@ Sub albums
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<?php zp_apply_filter('theme_head'); ?>
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
 		<!--
 		<link rel="stylesheet" href="<?php echo pathurlencode($zenCSS); ?>" type="text/css" />
 		-->
@@ -68,7 +69,7 @@ Sub albums
 		      </div>
 		</div>
 		
-		<div class="jumbotron">
+		<div class="topfix jumbotron">
 	      <div class="container">
 		<h1>Hello, world!</h1>
 		<p><?php printGalleryDesc(); ?></p>
@@ -78,9 +79,14 @@ Sub albums
 		<div class="container">
 			<div class="row">
 				<?php while (next_album()): ?>
-					<div class="col-md-2" style="border: 1px solid #ccc; margin: 0 6px 20px; box-shadow: 0px 8px 8px -1px #bbb; padding: 0;">
+					<div class="col-md-2">
 						<div class="thumb">
-							<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumThumbImage(getAnnotatedAlbumTitle()); ?></a>
+							<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>">
+							<?php 
+							//printAlbumThumbImage(getAnnotatedAlbumTitle()); 
+							$img_thumb_url = getCustomAlbumThumbMaxSpace(220, 999);
+							echo '<img itemprop="image" src="'. $img_thumb_url .'">';
+							?></a>
 						</div>
 						<div class="albumdesc">
 							<h3><a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumTitle(); ?></a></h3>
@@ -91,7 +97,7 @@ Sub albums
 				<?php endwhile; ?>
 			</div>
 			<div class="row">
-				<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »"); ?>
+				<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »", false, true, 'pagination'); ?>
 			</div>
 		
 			<div class="row" id="credit">
@@ -118,8 +124,5 @@ Sub albums
 			<?php @call_user_func('mobileTheme::controlLink'); ?>
 			<?php @call_user_func('printLanguageSelector'); ?>
 		</div>
-		<?php
-		zp_apply_filter('theme_body_close');
-		?>
-	</body>
-</html>
+		
+		<?php include_once('footer.php'); ?>
