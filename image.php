@@ -73,33 +73,34 @@ if (!defined('WEBPATH'))
 		      </div>
 		</div>
 		
-		<div class="container">
-			<div id="gallerytitle">
-				<div class="imgnav">
-					<?php
-					if (hasPrevImage()) {
-						?>
-						<div class="imgprevious"><a href="<?php echo html_encode(getPrevImageURL()); ?>" title="<?php echo gettext("Previous Image"); ?>">« <?php echo gettext("prev"); ?></a></div>
-						<?php
-					} if (hasNextImage()) {
-						?>
-						<div class="imgnext"><a href="<?php echo html_encode(getNextImageURL()); ?>" title="<?php echo gettext("Next Image"); ?>"><?php echo gettext("next"); ?> »</a></div>
-						<?php
-					}
-					?>
+		<div class="topfix container">
+			<ol class="breadcrumb">
+				<?php printHomeLink('', '/'); ?>
+				<li><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php gettext('Albums Index'); ?>"><?php printGalleryTitle(); ?></a></li>
+				<?php if ( ! empty(getParentBreadcrumb() ) ) { ?>
+				  <li><?php printParentBreadcrumb('', '', ''); ?></li>
+				<?php } ?>
+				<li><?php printAlbumBreadcrumb("", ""); ?></li>
+				<li class="active"><strong><?php printImageTitle(); ?></strong></li>
+			</ol>
+			<div class="row">
+				<div class="col-md-9">
+					<h1><?php printImageTitle(); ?></h1>
 				</div>
-				<h2>
-					<span>
-						<?php printHomeLink('', ' | '); ?>
-						<a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php gettext('Albums Index'); ?>"><?php printGalleryTitle(); ?></a> |
+				<div class="col-md-3">
+					<ul class="pager">
 						<?php
-						printParentBreadcrumb("", " | ", " | ");
-						printAlbumBreadcrumb("", " | ");
+						if (hasPrevImage()) { ?>
+							<li><a href="<?php echo html_encode(getPrevImageURL()); ?>" title="<?php echo gettext("Previous Image"); ?>">« <?php echo gettext("prev"); ?></a></li>
+						<?php } if (hasNextImage()) { ?>
+							<li><a href="<?php echo html_encode(getNextImageURL()); ?>" title="<?php echo gettext("Next Image"); ?>"><?php echo gettext("next"); ?> »</a></li>
+							<?php
+						}
 						?>
-					</span>
-					<?php printImageTitle(); ?>
-				</h2>
+					</ul>
+				</div>
 			</div>
+			
 			<!-- The Image -->
 			<div class="row" id="image">
 				<strong>
@@ -131,7 +132,7 @@ if (!defined('WEBPATH'))
 					@call_user_func('printUserSizeSelector');
 				?>
 			</div>
-			<div id="narrow">
+			<div class="row" id="narrow">
 				<?php printImageDesc(); ?>
 				<hr /><br />
 				<?php
@@ -153,8 +154,8 @@ if (!defined('WEBPATH'))
 				<?php @call_user_func('printRating'); ?>
 				<?php @call_user_func('printCommentForm'); ?>
 			</div>
-		</div>
-		<div id="credit">
+		
+		<div class="row" id="credit">
 			<?php
 			if (function_exists('printFavoritesURL')) {
 				printFavoritesURL(NULL, '', ' | ', '<br />');
@@ -165,8 +166,5 @@ if (!defined('WEBPATH'))
 			<?php printZenPhoto20(); ?>
 			<?php @call_user_func('printUserLogin_out', " | "); ?>
 		</div>
-		<?php
-		zp_apply_filter('theme_body_close');
-		?>
-	</body>
-</html>
+		</div>
+		<?php include_once('footer.php'); ?>
