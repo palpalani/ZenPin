@@ -53,59 +53,65 @@ if (!defined('WEBPATH'))
 			
 			<?php
 			if (getOption('Allow_search')) {
-				printSearchForm('');
+				$album_list = array('albums' => array($_zp_current_album->name), 'pages' => '0', 'news' => '0');
+				printSearchForm('', 'search', gettext('Search within album'), gettext('search'), NULL, NULL, $album_list);
 			}
 			?>
 			</div><!--/.navbar-collapse -->
 		      </div>
 		</div>
 
-		<div class="container">
-			<div id="gallerytitle">
-				<?php
-				if (getOption('Allow_search')) {
-					$album_list = array('albums' => array($_zp_current_album->name), 'pages' => '0', 'news' => '0');
-					printSearchForm('', 'search', gettext('Search within album'), gettext('search'), NULL, NULL, $album_list);
-				}
-				?>
-				<h2>
-					<span>
-						<?php printHomeLink('', ' | '); ?>
-						<a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php echo gettext('Albums Index'); ?>"><?php printGalleryTitle(); ?></a> |
-						<?php printParentBreadcrumb(); ?>
-					</span>
-					<?php printAlbumTitle(); ?>
-				</h2>
+		<div class="topfix container">
+			
+			<ol class="breadcrumb">
+				  <?php printHomeLink('', '/'); ?>
+				  <li><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php echo gettext('Albums Index'); ?>"><?php printGalleryTitle(); ?></a></li>
+				  <?php if ( ! empty(getParentBreadcrumb() ) ) { ?>
+				  <li><?php printParentBreadcrumb('', '', ''); ?></li>
+				  <?php } ?>
+				  <li class="active"><strong><?php printAlbumTitle(); ?></strong></li>
+			</ol>
+			
+			<h1><?php printAlbumTitle(); ?></h1>			
+			<?php printAlbumDesc(); ?>
+			<div class="row" id="albums">
+				<?php while (next_album()): ?>
+					<div class="col-md-2">
+						<div class="thumb">
+							<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>">
+							<?php 
+								//printAlbumThumbImage(getAnnotatedAlbumTitle());
+								$img_thumb_url = getCustomAlbumThumbMaxSpace(220, 999);
+								echo '<img itemprop="image" src="'. $img_thumb_url .'">';
+							?>
+							</a>
+						</div>
+						<div class="albumdesc">
+							<h3><a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumTitle(); ?></a></h3>
+							<small><?php printAlbumDate(""); ?></small>
+							<div><?php printAlbumDesc(); ?></div>
+						</div>
+						<p style="clear: both; "></p>
+					</div>
+				<?php endwhile; ?>
+			</div>
+			<div class="row" id="images">
+				<?php while (next_image()): ?>
+					<div class="col-md-2">
+						<div class="imagethumb">
+							<a href="<?php echo html_encode(getImageURL()); ?>" title="<?php printBareImageTitle(); ?>">
+								<?php 
+								//printImageThumb(getAnnotatedImageTitle());
+								$img_thumb_url = getCustomSizedImageThumbMaxSpace(220, 999);
+								echo '<img itemprop="image" src="'. $img_thumb_url .'">';
+								?>
+							</a>
+						</div>
+					</div>
+				<?php endwhile; ?>
 			</div>
 			<div class="row">
-				<?php printAlbumDesc(); ?>
-				<div id="albums">
-					<?php while (next_album()): ?>
-						<div class="col-md-2">
-							<div class="thumb">
-								<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumThumbImage(getAnnotatedAlbumTitle()); ?></a>
-							</div>
-							<div class="albumdesc">
-								<h3><a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php printAnnotatedAlbumTitle(); ?>"><?php printAlbumTitle(); ?></a></h3>
-								<small><?php printAlbumDate(""); ?></small>
-								<div><?php printAlbumDesc(); ?></div>
-							</div>
-							<p style="clear: both; "></p>
-						</div>
-					<?php endwhile; ?>
-				</div>
-				<div id="images">
-					<?php while (next_image()): ?>
-						<div class="col-md-2">
-							<div class="imagethumb">
-								<a href="<?php echo html_encode(getImageURL()); ?>" title="<?php printBareImageTitle(); ?>">
-									<?php printImageThumb(getAnnotatedImageTitle()); ?>
-								</a>
-							</div>
-						</div>
-					<?php endwhile; ?>
-				</div>
-				<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »"); ?>
+				<?php printPageListWithNav("« " . gettext("prev"), gettext("next") . " »", false, true, 'pagination'); ?>
 				<?php if (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_album); ?>
 				<?php printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', ''); ?>
 				<?php @call_user_func('printGoogleMap'); ?>
@@ -114,7 +120,7 @@ if (!defined('WEBPATH'))
 				<?php @call_user_func('printCommentForm'); ?>
 			</div>
 		
-			<div class="row">
+			<div class="row" id="credit">
 				<?php
 				if (function_exists('printFavoritesURL')) {
 					printFavoritesURL(NULL, '', ' | ', '<br />');
@@ -125,9 +131,5 @@ if (!defined('WEBPATH'))
 				<?php printZenPhoto20(); ?>
 				<?php @call_user_func('printUserLogin_out', " | "); ?>
 			</div>
-		<?php
-		zp_apply_filter('theme_body_close');
-		?>
-		</div>
-	</body>
-</html>
+	
+	<?php include_once('footer.php'); ?>
