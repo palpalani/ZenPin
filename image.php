@@ -1,74 +1,172 @@
-<?php 
-$page = "image";
-include_once('header.php');
+<?php
+// force UTF-8 Ø
+
+if (!defined('WEBPATH'))
+	die();
 ?>
-<div class="span9">
-<ul class="breadcrumb">
-<li><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> <span class="divider">/</span></li>
-<li><?php printParentBreadcrumb(); ?></li>
-<li><?php printAlbumBreadcrumb();?></li>
-<li><?php echo getImageTitle(); ?></li>
-</ul>
-
-<div class="pagination">
-  <ul>
-  <?php if (hasPrevImage()) { ?>
-    <li class="prev"><a href="<?php echo html_encode(getPrevImageURL());?>" title="<?php echo gettext("Previous Image"); ?>">&larr; Previous</a></li>
-    <?php } 
-	if (hasNextImage()) { ?>
-    <li class="next"><a href="<?php echo html_encode(getNextImageURL());?>" title="<?php echo gettext("Next Image"); ?>">Next &rarr;</a></li>
-    <?php } ?>
-    <li><a href="#"><?php echo " Photo: ". imageNumber() . " of ". getNumImages() ." - Total views: <strong>". getHitcounter() ."</strong>";?></a></li>
-  </ul>
-</div>
-
-<div class="container-fluid">
-	
-	<!-- The Image -->
-	<div id="image">
-		<strong>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<?php zp_apply_filter('theme_head'); ?>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<!--
+		<link rel="stylesheet" href="<?php echo pathurlencode($zenCSS); ?>" type="text/css" />
+		-->
+		<link rel="stylesheet" href="<?php echo pathurlencode(dirname(dirname($zenCSS))); ?>/common.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo pathurlencode(dirname(dirname($zenCSS))); ?>/custom.css" type="text/css" />
+		<?php if (zp_has_filter('theme_head', 'colorbox::css')) { ?>
+			<script type="text/javascript">
+				// <!-- <![CDATA[
+				$(document).ready(function() {
+					$(".colorbox").colorbox({
+						inline: true,
+						href: "#imagemetadata",
+						close: '<?php echo gettext("close"); ?>'
+					});
+				});
+				// ]]> -->
+			</script>
+		<?php } ?>
+		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
+	</head>
+	<body>
+		<?php zp_apply_filter('theme_body_open'); ?>
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		      <div class="container">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			    <span class="sr-only">Toggle navigation</span>
+			    <span class="icon-bar"></span>
+			    <span class="icon-bar"></span>
+			    <span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#"><?php printGalleryTitle(); ?></a>
+			</div>
+			
+			<div class="navbar-collapse collapse">
+			
+			<ul class="nav navbar-nav">
+			<li class="active"><a href="#">Link</a></li>
+			<li><a href="#">Link</a></li>
+			<li class="dropdown">
+			  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="#">Action</a></li>
+			    <li><a href="#">Another action</a></li>
+			    <li><a href="#">Something else here</a></li>
+			    <li class="divider"></li>
+			    <li><a href="#">Separated link</a></li>
+			    <li class="divider"></li>
+			    <li><a href="#">One more separated link</a></li>
+			  </ul>
+			</li>
+		      </ul>
+			
 			<?php
-			$fullimage = getFullImageURL();
-			if (!empty($fullimage)) {
-				?>
-				<a href="<?php echo html_encode($fullimage); ?>" title="<?php printBareImageTitle(); ?>">
-					<?php
-				}
-				if (function_exists('printUserSizeImage') && isImagePhoto()) {
-					printUserSizeImage(getImageTitle());
-				} else {
-					printDefaultSizedImage(getImageTitle());
-				}
-				if (!empty($fullimage)) {
-					?>
-				</a>
-				<?php
+			if (getOption('Allow_search')) {
+				printSearchForm('');
 			}
 			?>
-		</strong>
-		<?php
-		if (isImagePhoto())
-			@call_user_func('printUserSizeSelector');
-		?>
-	</div>
-	<div id="narrow">
-		<?php printImageDesc(true); ?>
-		<hr /><br />
-		<?php
-		If (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_image);
-		if (getImageMetaData()) {
-			echo printImageMetadata(NULL, 'colorbox');
-			?>
-			<br clear="all" />
+			</div><!--/.navbar-collapse -->
+		      </div>
+		</div>
+		
+		<div class="container">
+			<div id="gallerytitle">
+				<div class="imgnav">
+					<?php
+					if (hasPrevImage()) {
+						?>
+						<div class="imgprevious"><a href="<?php echo html_encode(getPrevImageURL()); ?>" title="<?php echo gettext("Previous Image"); ?>">« <?php echo gettext("prev"); ?></a></div>
+						<?php
+					} if (hasNextImage()) {
+						?>
+						<div class="imgnext"><a href="<?php echo html_encode(getNextImageURL()); ?>" title="<?php echo gettext("Next Image"); ?>"><?php echo gettext("next"); ?> »</a></div>
+						<?php
+					}
+					?>
+				</div>
+				<h2>
+					<span>
+						<?php printHomeLink('', ' | '); ?>
+						<a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php gettext('Albums Index'); ?>"><?php printGalleryTitle(); ?></a> |
+						<?php
+						printParentBreadcrumb("", " | ", " | ");
+						printAlbumBreadcrumb("", " | ");
+						?>
+					</span>
+					<?php printImageTitle(); ?>
+				</h2>
+			</div>
+			<!-- The Image -->
+			<div class="row" id="image">
+				<strong>
+					<?php
+					if (isImagePhoto()) {
+						$fullimage = getFullImageURL();
+					} else {
+						$fullimage = NULL;
+					}
+					if (!empty($fullimage)) {
+						?>
+						<a href="<?php echo html_encode(pathurlencode($fullimage)); ?>" title="<?php printBareImageTitle(); ?>">
+							<?php
+						}
+						if (function_exists('printUserSizeImage') && isImagePhoto()) {
+							printUserSizeImage(getImageTitle());
+						} else {
+							printDefaultSizedImage(getImageTitle());
+						}
+						if (!empty($fullimage)) {
+							?>
+						</a>
+						<?php
+					}
+					?>
+				</strong>
+				<?php
+				if (isImagePhoto())
+					@call_user_func('printUserSizeSelector');
+				?>
+			</div>
+			<div id="narrow">
+				<?php printImageDesc(); ?>
+				<hr /><br />
+				<?php
+				If (function_exists('printAddToFavorites'))
+					printAddToFavorites($_zp_current_image);
+				@call_user_func('printSlideShowLink');
+
+				if (getImageMetaData()) {
+					printImageMetadata(NULL, 'colorbox');
+					?>
+					<br class="clearall" />
+					<?php
+				}
+				printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', '');
+				?>
+				<br class="clearall" />
+
+				<?php @call_user_func('printGoogleMap'); ?>
+				<?php @call_user_func('printRating'); ?>
+				<?php @call_user_func('printCommentForm'); ?>
+			</div>
+		</div>
+		<div id="credit">
 			<?php
-		}
-		printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', '');
+			if (function_exists('printFavoritesURL')) {
+				printFavoritesURL(NULL, '', ' | ', '<br />');
+			}
+			?>
+			<?php if (class_exists('RSS')) printRSSLink('Gallery', '', 'RSS', ' | '); ?>
+			<?php printCustomPageURL(gettext("Archive View"), "archive"); ?> |
+			<?php printZenPhoto20(); ?>
+			<?php @call_user_func('printUserLogin_out', " | "); ?>
+		</div>
+		<?php
+		zp_apply_filter('theme_body_close');
 		?>
-		<br clear="all" />
-		<?php @call_user_func('printSlideShowLink'); ?>
-		<?php @call_user_func('printGoogleMap'); ?>
-		<?php @call_user_func('printRating'); ?>
-		<?php @call_user_func('printCommentForm'); ?>
-	</div>
-</div>
-<?php include_once('footer.php'); ?>
+	</body>
+</html>
