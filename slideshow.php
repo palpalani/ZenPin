@@ -21,9 +21,7 @@ if (function_exists('printSlideShow')) {
 				printSlideShow(true, true);
 				?>
 			</div>
-			<?php zp_apply_filter('theme_body_close'); ?>
-		</body>
-	</html>
+			<?php include_once('footer.php'); ?>
 	<?php
 } else {
 	include(SERVERPATH . '/' . ZENFOLDER . '/404.php');
