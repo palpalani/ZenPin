@@ -32,11 +32,7 @@ if (function_exists('printRegistrationForm')) {
 			<div id="credit">
 				<?php printZenPhoto20(); ?>
 			</div>
-			<?php
-			zp_apply_filter('theme_body_close');
-			?>
-		</body>
-	</html>
+			<?php include_once('footer.php'); ?>
 	<?php
 } else {
 	include(SERVERPATH . '/' . ZENFOLDER . '/404.php');
