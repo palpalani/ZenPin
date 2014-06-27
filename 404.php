@@ -30,8 +30,5 @@ if (!defined('WEBPATH'))
 		<div id="credit">
 			<?php printZenPhoto20(); ?>
 		</div>
-		<?php
-		zp_apply_filter('theme_body_close');
-		?>
-	</body>
-</html>
+		
+	<?php include_once('footer.php'); ?>
