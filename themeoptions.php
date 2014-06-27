@@ -16,16 +16,15 @@ class ThemeOptions {
 	function __construct() {
 		$me = basename(dirname(__FILE__));
 		setThemeOptionDefault('Allow_search', true);
-		setThemeOptionDefault('Theme_colors', 'light');
-		setThemeOptionDefault('albums_per_page', 6);
-		setThemeOptionDefault('albums_per_row', 2);
-		setThemeOptionDefault('images_per_page', 20);
-		setThemeOptionDefault('images_per_row', 5);
-		setThemeOptionDefault('image_size', 595);
+		setThemeOptionDefault('albums_per_page', 24);
+		setThemeOptionDefault('albums_per_row', 6);
+		setThemeOptionDefault('images_per_page', 24);
+		setThemeOptionDefault('images_per_row', 6);
+		setThemeOptionDefault('image_size', 650);
 		setThemeOptionDefault('image_use_side', 'longest');
-		setThemeOptionDefault('thumb_size', 100);
-		setThemeOptionDefault('thumb_crop_width', 100);
-		setThemeOptionDefault('thumb_crop_height', 100);
+		setThemeOptionDefault('thumb_size', 220);
+		setThemeOptionDefault('thumb_crop_width', 220);
+		setThemeOptionDefault('thumb_crop_height', 999);
 		setThemeOptionDefault('thumb_crop', 1);
 		setThemeOptionDefault('thumb_transition', 1);
 		setOptionDefault('colorbox_' . $me . '_album', 1);
@@ -40,8 +39,8 @@ class ThemeOptions {
 	}
 
 	function getOptionsSupported() {
-		return array(gettext('Allow search')	 => array('key' => 'Allow_search', 'type' => OPTION_TYPE_CHECKBOX, 'desc' => gettext('Check to enable search form.')),
-						gettext('Theme colors')	 => array('key' => 'Theme_colors', 'type' => OPTION_TYPE_CUSTOM, 'desc' => gettext('Select the colors of the theme'))
+		return array(
+			gettext('Allow search')	 => array('key' => 'Allow_search', 'type' => OPTION_TYPE_CHECKBOX, 'desc' => gettext('Check to enable search form.'))
 		);
 	}
 
@@ -50,12 +49,6 @@ class ThemeOptions {
 	}
 
 	function handleOption($option, $currentValue) {
-		global $themecolors;
-		if ($option == 'Theme_colors') {
-			echo '<select id="EF_themeselect_colors" name="' . $option . '"' . ">\n";
-			generateListFromArray(array($currentValue), $themecolors, false, false);
-			echo "</select>\n";
-		}
 	}
 
 }
